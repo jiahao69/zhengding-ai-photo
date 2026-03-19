@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+:root {
+  --spacing: 1px;
+}
+
+.fs-64 {
+  font-size: calc(var(--spacing) * 64);
+}
+
+.fs-72 {
+  font-size: calc(var(--spacing) * 72);
+}
