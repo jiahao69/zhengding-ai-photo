@@ -19,3 +19,11 @@ body,
   font-family: "yanzhengqing";
   src: url("../fonts/yanzhengqing.ttf") format("truetype");
 }
+
+.gesture-button {
+  background-image: var(--gesture-button-bg);
+}
+
+.gesture-button[data-gesture-hovered="true"] {
+  background-image: var(--gesture-button-active-bg);
+}

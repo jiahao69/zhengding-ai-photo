@@ -10,7 +10,7 @@ import Button from "@/components/Button";
 
 interface IProps {
   children?: ReactNode;
-  onOpen: () => void;
+  onOpen?: () => void;
 }
 
 const Home: FC<IProps> = ({ onOpen }) => {

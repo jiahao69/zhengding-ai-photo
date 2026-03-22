@@ -1,5 +1,5 @@
-import { memo, useEffect, useRef, useState } from "react";
-import type { FC, ReactNode } from "react";
+import { memo } from "react";
+import type { CSSProperties, FC, ReactNode } from "react";
 
 import buttonBg from "@/assets/images/button.png";
 import buttonActiveBg from "@/assets/images/button-active.png";
@@ -23,45 +23,17 @@ const Button: FC<IProps> = ({
   text,
   onClick,
 }) => {
-  const rootRef = useRef<HTMLDivElement | null>(null);
-  const [isActive, setIsActive] = useState(false);
-
-  useEffect(() => {
-    const rootNode = rootRef.current;
-
-    if (!rootNode) {
-      return;
-    }
-
-    const syncHoverState = () => {
-      const hovered = rootNode.getAttribute("data-gesture-hovered") === "true";
-      setIsActive(hovered);
-    };
-
-    syncHoverState();
-
-    const observer = new MutationObserver(syncHoverState);
-    observer.observe(rootNode, {
-      attributes: true,
-      attributeFilter: ["data-gesture-hovered"],
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
-
-  const backgroundImage = `url(${isActive ? activeBg : normalBg})`;
+  const style = {
+    "--gesture-button-bg": `url(${normalBg})`,
+    "--gesture-button-active-bg": `url(${activeBg})`,
+    width: px2vw(width),
+    height: px2vw(height),
+  } as CSSProperties;
 
   return (
     <div
-      ref={rootRef}
-      className={`flex justify-center items-center bg-cover`}
-      style={{
-        backgroundImage,
-        width: px2vw(width),
-        height: px2vw(height),
-      }}
+      className="gesture-button flex justify-center items-center bg-cover"
+      style={style}
       data-gesture-clickable
       onClick={onClick}
     >
