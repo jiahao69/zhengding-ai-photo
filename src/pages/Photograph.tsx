@@ -1,5 +1,5 @@
 import { memo, useCallback } from "react";
-import type { FC, ReactNode } from "react";
+import type { FC } from "react";
 
 import bg2 from "@/assets/images/bg2.png";
 import countDown1 from "@/assets/images/count-down1.png";
@@ -14,7 +14,6 @@ import { useCountdown, useFaceDetection, usePhotoCapture } from "@/hooks";
 import Button from "@/components/Button";
 
 interface IProps {
-  children?: ReactNode;
   savedPhotoDataUrl?: string;
   onRetake?: () => void;
   onConfirm?: (photoDataUrl: string) => void;
@@ -71,12 +70,9 @@ const Photograph: FC<IProps> = ({ savedPhotoDataUrl, onRetake, onConfirm }) => {
   }, [currentPhotoDataUrl, onConfirm]);
 
   return (
-    <div
-      className="size-full bg-cover"
-      style={{ backgroundImage: `url(${bg2})` }}
-    >
+    <div className="h-full bg-cover" style={{ backgroundImage: `url(${bg2})` }}>
       {isCountingDown && (
-        <div className={`flex flex-col items-center pt-76`}>
+        <div className="flex flex-col items-center pt-76">
           <div className="font-[yanzhengqing] fs-64">倒计时</div>
           <img className="w-344 -mt-80" src={countdownImage} alt="" />
         </div>

@@ -31,63 +31,71 @@ const useCountdown = ({
   onEnd,
 }: IUseCountdownOptions) => {
   const normalizedDuration = normalizeDuration(duration);
-  const startedAtRef = useRef(0);
-  const [startedAt, setStartedAt] = useState(0);
-  const [currentMs, setCurrentMs] = useState(0);
+  const timeoutIdRef = useRef<number | null>(null);
   const onEndRef = useRef<IUseCountdownOptions["onEnd"]>(onEnd);
   const hasTriggeredEndRef = useRef(false);
+  const [startedAt, setStartedAt] = useState(0);
+  const [currentMs, setCurrentMs] = useState(0);
 
   useEffect(() => {
     onEndRef.current = onEnd;
   }, [onEnd]);
 
   useEffect(() => {
-    if (!startWhen) {
-      startedAtRef.current = 0;
-      hasTriggeredEndRef.current = false;
-      if (startedAt !== 0) {
-        const resetId = window.requestAnimationFrame(() => {
-          setStartedAt(0);
-        });
+    if (timeoutIdRef.current !== null) {
+      window.clearTimeout(timeoutIdRef.current);
+      timeoutIdRef.current = null;
+    }
 
-        return () => {
-          window.cancelAnimationFrame(resetId);
-        };
-      }
+    if (!startWhen) {
+      hasTriggeredEndRef.current = false;
+      timeoutIdRef.current = window.setTimeout(() => {
+        setStartedAt((prev) => (prev === 0 ? prev : 0));
+        setCurrentMs((prev) => (prev === 0 ? prev : 0));
+      }, 0);
 
       return;
     }
 
-    let rafId = 0;
-    const tick = () => {
-      const now = Date.now();
+    hasTriggeredEndRef.current = false;
 
-      if (startedAtRef.current <= 0) {
-        startedAtRef.current = now;
-        hasTriggeredEndRef.current = false;
-        setStartedAt(now);
-      }
+    timeoutIdRef.current = window.setTimeout(() => {
+      const nextStartedAt = Date.now();
+      setStartedAt(nextStartedAt);
+      setCurrentMs(nextStartedAt);
 
-      setCurrentMs(now);
+      const tick = () => {
+        const now = Date.now();
 
-      if (
-        !hasTriggeredEndRef.current &&
-        now - startedAtRef.current >= normalizedDuration * 1000
-      ) {
-        hasTriggeredEndRef.current = true;
-        onEndRef.current?.();
-        return;
-      }
+        if (
+          !hasTriggeredEndRef.current &&
+          now - nextStartedAt >= normalizedDuration * 1000
+        ) {
+          hasTriggeredEndRef.current = true;
+          onEndRef.current?.();
+          return;
+        }
 
-      rafId = window.requestAnimationFrame(tick);
-    };
+        setCurrentMs(now);
 
-    rafId = window.requestAnimationFrame(tick);
+        const elapsedMs = Math.max(now - nextStartedAt, 0);
+        const nextDelay = 1000 - (elapsedMs % 1000);
+        timeoutIdRef.current = window.setTimeout(
+          tick,
+          Math.max(nextDelay, 16),
+        );
+      };
+
+      timeoutIdRef.current = window.setTimeout(tick, 1000);
+    }, 0);
 
     return () => {
-      window.cancelAnimationFrame(rafId);
+      if (timeoutIdRef.current !== null) {
+        window.clearTimeout(timeoutIdRef.current);
+        timeoutIdRef.current = null;
+      }
     };
-  }, [normalizedDuration, startWhen, startedAt]);
+  }, [normalizedDuration, startWhen]);
 
   if (!startWhen || startedAt <= 0) {
     return normalizedDuration;
