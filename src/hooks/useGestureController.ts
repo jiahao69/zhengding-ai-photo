@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
+import { getPublicAssetPath } from "@/utils/public-asset-path";
 
 type Point = {
   x: number;
@@ -12,8 +13,10 @@ type GestureControllerState = {
   hovering: boolean;
 };
 
-const GESTURE_WASM_BASE_URL = "/mediapipe/wasm";
-const GESTURE_MODEL_ASSET_PATH = "/mediapipe/hand_landmarker.task";
+const GESTURE_WASM_BASE_URL = getPublicAssetPath("mediapipe/wasm");
+const GESTURE_MODEL_ASSET_PATH = getPublicAssetPath(
+  "mediapipe/hand_landmarker.task",
+);
 const GESTURE_SMOOTHING = 0.56;
 const GESTURE_DWELL_MS = 2000;
 const GESTURE_PROGRESS_DELAY_MS = 300;

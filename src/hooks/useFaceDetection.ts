@@ -6,6 +6,7 @@ import {
 } from "@mediapipe/tasks-vision";
 
 import useCameraStream from "./useCameraStream";
+import { getPublicAssetPath } from "@/utils/public-asset-path";
 
 interface IUseFaceDetectionOptions {
   hasCaptured?: boolean;
@@ -18,9 +19,10 @@ interface IFaceBoundingBox {
   height: number;
 }
 
-const MEDIAPIPE_FACE_LANDMARKER_MODEL_ASSET_PATH =
-  "/mediapipe/face_landmarker.task";
-const MEDIAPIPE_WASM_BASE_URL = "/mediapipe/wasm";
+const MEDIAPIPE_FACE_LANDMARKER_MODEL_ASSET_PATH = getPublicAssetPath(
+  "mediapipe/face_landmarker.task",
+);
+const MEDIAPIPE_WASM_BASE_URL = getPublicAssetPath("mediapipe/wasm");
 const FACE_MIN_AREA_RATIO = 0.03;
 const FACE_MAX_AREA_RATIO = 0.7;
 const FACE_CENTER_MIN_RATIO = 0.22;
