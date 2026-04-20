@@ -1,9 +1,8 @@
 import { memo } from "react";
 import type { CSSProperties, FC, ReactNode } from "react";
 
-import buttonBg from "@/assets/images/button.png";
-import buttonActiveBg from "@/assets/images/button-active.png";
 import { px2vw } from "@/utils/px2vw";
+import { getThemeImage } from "@/utils/theme-assets";
 
 interface IProps {
   children?: ReactNode;
@@ -16,16 +15,18 @@ interface IProps {
 }
 
 const Button: FC<IProps> = ({
-  width = 360,
-  height = 210,
-  normalBg = buttonBg,
-  activeBg = buttonActiveBg,
+  width = 349,
+  height = 123,
+  normalBg,
+  activeBg,
   text,
   onClick,
 }) => {
+  const resolvedNormalBg = normalBg ?? getThemeImage("button.png");
+  const resolvedActiveBg = activeBg ?? getThemeImage("button-active.png");
   const style = {
-    "--gesture-button-bg": `url(${normalBg})`,
-    "--gesture-button-active-bg": `url(${activeBg})`,
+    "--gesture-button-bg": `url(${resolvedNormalBg})`,
+    "--gesture-button-active-bg": `url(${resolvedActiveBg})`,
     width: px2vw(width),
     height: px2vw(height),
   } as CSSProperties;
@@ -38,7 +39,7 @@ const Button: FC<IProps> = ({
       onClick={onClick}
     >
       {text && (
-        <span className="font-[yanzhengqing] fs-64 text-white">{text}</span>
+        <span className="font-[yanzhengqing] fs-70 text-white">{text}</span>
       )}
     </div>
   );

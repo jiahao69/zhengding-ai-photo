@@ -1,13 +1,11 @@
 import { memo } from "react";
 import type { FC, ReactNode } from "react";
 
-import bg2 from "@/assets/images/bg2.png";
 import lqxVideo from "@/assets/videos/lqx.mp4";
-import swappingTip from "@/assets/images/swapping-tip.png";
-import loading from "@/assets/images/loading.png";
 
 import Button from "@/components/Button";
 import VideoWrapper from "@/components/VideoWrapper";
+import { getThemeImage } from "@/utils/theme-assets";
 
 interface IProps {
   children?: ReactNode;
@@ -16,10 +14,14 @@ interface IProps {
 }
 
 const Lqx: FC<IProps> = ({ isGenerating = false, onNext }) => {
+  const bg = getThemeImage("bg.png");
+  const swappingTip = getThemeImage("swapping-tip.png");
+  const loading = getThemeImage("loading.png");
+
   return (
     <div
       className="size-full bg-cover"
-      style={{ backgroundImage: `url(${bg2})` }}
+      style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="text-center pt-80 font-[yanzhengqing] fs-72">
         注意，现在开始捋清袖

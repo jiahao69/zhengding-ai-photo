@@ -1,11 +1,11 @@
 import { memo } from "react";
 import type { FC, ReactNode } from "react";
 
-import bg2 from "@/assets/images/bg2.png";
 import zjgVideo from "@/assets/videos/zjg.mp4";
 
 import Button from "@/components/Button";
 import VideoWrapper from "@/components/VideoWrapper";
+import { getThemeImage } from "@/utils/theme-assets";
 
 interface IProps {
   children?: ReactNode;
@@ -13,10 +13,12 @@ interface IProps {
 }
 
 const Zjg: FC<IProps> = ({ onNext }) => {
+  const bg = getThemeImage("bg.png");
+
   return (
     <div
       className="size-full bg-cover"
-      style={{ backgroundImage: `url(${bg2})` }}
+      style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="text-center pt-80 font-[yanzhengqing] fs-72">
         注意，现在开始正己冠

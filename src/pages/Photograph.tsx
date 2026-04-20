@@ -1,17 +1,13 @@
 import { memo, useCallback } from "react";
 import type { FC } from "react";
 
-import bg2 from "@/assets/images/bg2.png";
-import countDown1 from "@/assets/images/count-down1.png";
-import countDown2 from "@/assets/images/count-down2.png";
-import countDown3 from "@/assets/images/count-down3.png";
-import countDown4 from "@/assets/images/count-down4.png";
-import countDown5 from "@/assets/images/count-down5.png";
-import photographBorder from "@/assets/images/photograph-border.png";
-import notDetected from "@/assets/images/not-detected.png";
 import { useCountdown, useFaceDetection, usePhotoCapture } from "@/hooks";
 
 import Button from "@/components/Button";
+import {
+  getThemeImage,
+  getThemeImages,
+} from "@/utils/theme-assets";
 
 interface IProps {
   savedPhotoDataUrl?: string;
@@ -20,15 +16,27 @@ interface IProps {
 }
 
 const COUNTDOWN_DURATION_SECONDS = 5;
-const countdownImageMap: Record<number, string> = {
-  1: countDown1,
-  2: countDown2,
-  3: countDown3,
-  4: countDown4,
-  5: countDown5,
-};
-
 const Photograph: FC<IProps> = ({ savedPhotoDataUrl, onRetake, onConfirm }) => {
+  const bg = getThemeImage("bg.png");
+  const [countDown1, countDown2, countDown3, countDown4, countDown5] =
+    getThemeImages([
+      "count-down1.png",
+      "count-down2.png",
+      "count-down3.png",
+      "count-down4.png",
+      "count-down5.png",
+    ]);
+  const photographBorder = getThemeImage("photograph-border.png");
+  const notDetected = getThemeImage("not-detected.png");
+
+  const countdownImageMap: Record<number, string> = {
+    1: countDown1,
+    2: countDown2,
+    3: countDown3,
+    4: countDown4,
+    5: countDown5,
+  };
+
   const {
     capturedPhotoDataUrl,
     capturePhoto: doCapturePhoto,
@@ -70,7 +78,7 @@ const Photograph: FC<IProps> = ({ savedPhotoDataUrl, onRetake, onConfirm }) => {
   }, [currentPhotoDataUrl, onConfirm]);
 
   return (
-    <div className="h-full bg-cover" style={{ backgroundImage: `url(${bg2})` }}>
+    <div className="h-full bg-cover" style={{ backgroundImage: `url(${bg})` }}>
       {isCountingDown && (
         <div className="flex flex-col items-center pt-76">
           <div className="font-[yanzhengqing] fs-64">倒计时</div>

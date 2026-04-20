@@ -1,13 +1,8 @@
 import { memo, useCallback } from "react";
 import type { FC, ReactNode } from "react";
 
-import bg3 from "@/assets/images/bg3.png";
-import male from "@/assets/images/male.png";
-import maleActive from "@/assets/images/male-active.png";
-import female from "@/assets/images/female.png";
-import femaleActive from "@/assets/images/female-active.png";
-
 import Button from "@/components/Button";
+import { getThemeImage } from "@/utils/theme-assets";
 
 interface IProps {
   children?: ReactNode;
@@ -16,6 +11,12 @@ interface IProps {
 }
 
 const SelectGender: FC<IProps> = ({ onSelect, onBack }) => {
+  const bg = getThemeImage("bg.png");
+  const male = getThemeImage("male.png");
+  const maleActive = getThemeImage("male-active.png");
+  const female = getThemeImage("female.png");
+  const femaleActive = getThemeImage("female-active.png");
+
   const handleSelect = useCallback(
     (gender: "male" | "female") => {
       onSelect?.(gender);
@@ -26,7 +27,7 @@ const SelectGender: FC<IProps> = ({ onSelect, onBack }) => {
   return (
     <div
       className="size-full bg-cover"
-      style={{ backgroundImage: `url(${bg3})` }}
+      style={{ backgroundImage: `url(${bg})` }}
     >
       <div className="pt-159 text-center font-[yanzhengqing] fs-72">
         请选择性别

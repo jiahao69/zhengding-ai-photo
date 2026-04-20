@@ -15,15 +15,18 @@ import SelectGender from "@/pages/SelectGender";
 import SelectClothes from "@/pages/SelectClothes";
 import Zjg from "@/pages/Zjg";
 import Lqx from "@/pages/Lqx";
+import ChangChengLoading from "@/pages/ChangChengLoading";
 import TransformationResults from "@/pages/TransformationResults";
 import { requestFaceSwap, uploadImage } from "@/service/api";
 import { sourceToDataURL } from "@/utils/source-to-dataurl";
+import { getThemeFromSearch } from "@/utils/theme-assets";
 
 type PageKey =
   | "home"
   | "photograph"
   | "gender"
   | "clothes"
+  | "changchengLoading"
   | "zjg"
   | "lqx"
   | "results";
@@ -33,12 +36,14 @@ const pageAudioMap: Record<PageKey, string> = {
   photograph: alignFaceAudio,
   gender: selectGenderAudio,
   clothes: selectClothesAudio,
+  changchengLoading: "",
   zjg: zjgAudio,
   lqx: lqxAudio,
   results: "",
 };
 
 function App() {
+  const currentTheme = getThemeFromSearch();
   const [page, setPage] = useState<PageKey>("home");
   const [capturedPhotoDataUrl, setCapturedPhotoDataUrl] = useState("");
   const [selectedGender, setSelectedGender] = useState<"male" | "female" | "">(
@@ -118,7 +123,7 @@ function App() {
 
   const handleClothesConfirm = (swapImage: string) => {
     setLqxNextRequested(false);
-    setPage("zjg");
+    setPage(currentTheme === "changcheng" ? "changchengLoading" : "zjg");
     startSwapGeneration(capturedPhotoDataUrl, swapImage);
   };
 
@@ -146,6 +151,14 @@ function App() {
     setPage("results");
   }, [lqxNextRequested, page, swapResultImageUrl]);
 
+  useEffect(() => {
+    if (page !== "changchengLoading" || !swapResultImageUrl) {
+      return;
+    }
+
+    setPage("results");
+  }, [page, swapResultImageUrl]);
+
   return (
     <>
       {page === "home" && <Home onOpen={handleOpenPhotograph} />}
@@ -172,6 +185,8 @@ function App() {
           onConfirm={handleClothesConfirm}
         />
       )}
+
+      {page === "changchengLoading" && <ChangChengLoading />}
 
       {page === "zjg" && <Zjg onNext={handleZjgNext} />}
 

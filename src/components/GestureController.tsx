@@ -1,5 +1,5 @@
-import cursorImg from "@/assets/images/cursor.png";
 import { useGestureController } from "@/hooks";
+import { getThemeImage } from "@/utils/theme-assets";
 
 const GESTURE_RING_VIEWBOX_SIZE = 100;
 const GESTURE_RING_STROKE = 12;
@@ -9,6 +9,7 @@ const ringCircumference = 2 * Math.PI * ringRadius;
 
 const GestureController = () => {
   const { cursor, progress, hovering } = useGestureController();
+  const cursorImg = getThemeImage("cursor.png");
 
   if (!cursor) {
     return null;

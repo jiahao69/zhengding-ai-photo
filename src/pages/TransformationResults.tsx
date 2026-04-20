@@ -2,12 +2,10 @@ import { memo, useMemo } from "react";
 import type { FC, ReactNode } from "react";
 import QRCode from "react-qr-code";
 
-import poem1 from "@/assets/images/poem1.png";
-import poem2 from "@/assets/images/poem2.png";
-import poem3 from "@/assets/images/poem3.png";
-import poem4 from "@/assets/images/poem4.png";
-import qrBg from "@/assets/images/qrcode-bg.png";
-import backHome from "@/assets/images/back-home.png";
+import {
+  getThemeImage,
+  getThemeImages,
+} from "@/utils/theme-assets";
 
 interface IProps {
   children?: ReactNode;
@@ -16,17 +14,27 @@ interface IProps {
   onBack?: () => void;
 }
 
-const poemImages = [poem1, poem2, poem3, poem4];
-const getPoemIndexFromResult = () =>
-  Math.floor(Math.random() * poemImages.length);
+const getPoemIndexFromResult = (poemCount: number) =>
+  Math.floor(Math.random() * poemCount);
 
 const TransformationResults: FC<IProps> = ({
   resultImageUrl,
   uploadedResultUrl,
   onBack,
 }) => {
-  const poemIndex = useMemo(() => getPoemIndexFromResult(), []);
-  const poemImage = poemImages[poemIndex] ?? poem1;
+  const poemImages = getThemeImages([
+    "poem1.png",
+    "poem2.png",
+    "poem3.png",
+    "poem4.png",
+  ]);
+  const qrBg = getThemeImage("qrcode-bg.png");
+  const backHome = getThemeImage("back-home.png");
+  const poemIndex = useMemo(
+    () => getPoemIndexFromResult(poemImages.length),
+    [poemImages.length],
+  );
+  const poemImage = poemImages[poemIndex] ?? poemImages[0] ?? "";
   const qrcodeValue =
     "https://threebody-test.vitoreality.com/yuangu-ar/api" + uploadedResultUrl;
 

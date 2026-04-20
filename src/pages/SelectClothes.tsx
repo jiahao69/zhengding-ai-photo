@@ -1,33 +1,8 @@
 import { memo, useCallback, useMemo } from "react";
 import type { FC, ReactNode } from "react";
 
-import bg3 from "@/assets/images/bg3.png";
-import male1 from "@/assets/images/male-preview1.png";
-import maleActive1 from "@/assets/images/male-preview-active1.png";
-import male2 from "@/assets/images/male-preview2.png";
-import maleActive2 from "@/assets/images/male-preview-active2.png";
-import male3 from "@/assets/images/male-preview3.png";
-import maleActive3 from "@/assets/images/male-preview-active3.png";
-import male4 from "@/assets/images/male-preview4.png";
-import maleActive4 from "@/assets/images/male-preview-active4.png";
-import female1 from "@/assets/images/female-preview1.png";
-import femaleActive1 from "@/assets/images/female-preview-active1.png";
-import female2 from "@/assets/images/female-preview2.png";
-import femaleActive2 from "@/assets/images/female-preview-active2.png";
-import female3 from "@/assets/images/female-preview3.png";
-import femaleActive3 from "@/assets/images/female-preview-active3.png";
-import female4 from "@/assets/images/female-preview4.png";
-import femaleActive4 from "@/assets/images/female-preview-active4.png";
-import maleSwap1 from "@/assets/images/male-swap1.png";
-import maleSwap2 from "@/assets/images/male-swap2.png";
-import maleSwap3 from "@/assets/images/male-swap3.png";
-import maleSwap4 from "@/assets/images/male-swap4.png";
-import femaleSwap1 from "@/assets/images/female-swap1.png";
-import femaleSwap2 from "@/assets/images/female-swap2.png";
-import femaleSwap3 from "@/assets/images/female-swap3.png";
-import femaleSwap4 from "@/assets/images/female-swap4.png";
-
 import Button from "@/components/Button";
+import { getThemeImage, getThemeImages } from "@/utils/theme-assets";
 
 interface IProps {
   children?: ReactNode;
@@ -47,8 +22,38 @@ const SelectClothes: FC<IProps> = ({
   onBack,
   onConfirm,
 }) => {
+  const bg = getThemeImage("bg.png");
+
   const clothesList = useMemo<IClothesOption[]>(() => {
     if (selectedGender === "female") {
+      const [
+        female1,
+        femaleActive1,
+        female2,
+        femaleActive2,
+        female3,
+        femaleActive3,
+        female4,
+        femaleActive4,
+        femaleSwap1,
+        femaleSwap2,
+        femaleSwap3,
+        femaleSwap4,
+      ] = getThemeImages([
+        "female-preview1.png",
+        "female-preview-active1.png",
+        "female-preview2.png",
+        "female-preview-active2.png",
+        "female-preview3.png",
+        "female-preview-active3.png",
+        "female-preview4.png",
+        "female-preview-active4.png",
+        "female-swap1.png",
+        "female-swap2.png",
+        "female-swap3.png",
+        "female-swap4.png",
+      ]);
+
       return [
         {
           previewImage: female1,
@@ -72,6 +77,35 @@ const SelectClothes: FC<IProps> = ({
         },
       ];
     }
+
+    const [
+      male1,
+      maleActive1,
+      male2,
+      maleActive2,
+      male3,
+      maleActive3,
+      male4,
+      maleActive4,
+      maleSwap1,
+      maleSwap2,
+      maleSwap3,
+      maleSwap4,
+    ] = getThemeImages([
+      "male-preview1.png",
+      "male-preview-active1.png",
+      "male-preview2.png",
+      "male-preview-active2.png",
+      "male-preview3.png",
+      "male-preview-active3.png",
+      "male-preview4.png",
+      "male-preview-active4.png",
+      "male-swap1.png",
+      "male-swap2.png",
+      "male-swap3.png",
+      "male-swap4.png",
+    ]);
+
     return [
       {
         previewImage: male1,
@@ -106,9 +140,9 @@ const SelectClothes: FC<IProps> = ({
   return (
     <div
       className="size-full bg-cover"
-      style={{ backgroundImage: `url(${bg3})` }}
+      style={{ backgroundImage: `url(${bg})` }}
     >
-      <div className="pt-198 text-center font-[yanzhengqing] fs-72">
+      <div className="pt-160 text-center font-[yanzhengqing] fs-72">
         选择服装
       </div>
 
@@ -129,7 +163,7 @@ const SelectClothes: FC<IProps> = ({
         })}
       </div>
 
-      <div className="flex justify-center gap-100 mt-10">
+      <div className="flex justify-center gap-100 mt-100">
         <Button text="返回" onClick={onBack} />
       </div>
     </div>

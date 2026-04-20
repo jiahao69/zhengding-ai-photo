@@ -1,7 +1,7 @@
 import { memo } from "react";
 import type { FC, ReactNode } from "react";
 
-import videoBorder from "@/assets/images/video-border.png";
+import { getThemeImage } from "@/utils/theme-assets";
 
 interface IProps {
   children?: ReactNode;
@@ -9,6 +9,8 @@ interface IProps {
 }
 
 const VideoWrapper: FC<IProps> = ({ videoSrc }) => {
+  const videoBorder = getThemeImage("video-border.png");
+
   return (
     <div className="relative -top-50 w-1006 h-1421 ml-auto mr-auto">
       <div className="size-full pl-179 pr-169 pt-231 pb-164">

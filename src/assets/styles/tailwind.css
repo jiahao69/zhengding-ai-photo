@@ -4,8 +4,16 @@
   --spacing: 1px;
 }
 
+.fs-32 {
+  font-size: calc(var(--spacing) * 32);
+}
+
 .fs-64 {
   font-size: calc(var(--spacing) * 64);
+}
+
+.fs-70 {
+  font-size: calc(var(--spacing) * 70);
 }
 
 .fs-72 {
