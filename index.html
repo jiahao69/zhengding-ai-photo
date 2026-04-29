@@ -4,7 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>正定AI合影</title>
+    <title></title>
+    <script>
+      (function () {
+        var theme = new URLSearchParams(window.location.search).get("theme");
+
+        document.title =
+          theme && theme.trim().toLowerCase() === "changcheng"
+            ? "长城AI试衣镜"
+            : "正定AI试衣镜";
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
